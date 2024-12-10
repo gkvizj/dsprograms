@@ -1,0 +1,172 @@
+Lab Program 9
+
+Design, Develop and Implement a menu driven Program in C for the following operations on Doubly Linked List (DLL) of Employee Data with the fields: SSN, Name, Dept, Designation, Sal, PhNo 
+a. Create a DLL of N Employees Data by using end insertion. 
+b. Display the status of DLL and count the number of nodes in it 
+c. Perform Insertion and Deletion at End of DLL 
+d. Perform Insertion and Deletion at Front of DLL 
+e. Demonstrate how this DLL can be used as Double Ended Queue 
+f. Exit 
+
+
+#include<stdio.h> 
+#include<stdlib.h> 
+typedef struct node 
+{ 
+char ssn[10]; 
+char name[20]; 
+char dept[10]; 
+char des[10]; 
+int sal; 
+char ph[20]; 
+struct node *left; 
+struct node *right; 
+}node; 
+node *first=NULL; 
+node *readdata(); 
+void frontinsert(); 
+void endinsert(); 
+void frontdel(); 
+void enddel(); 
+void display(); 
+ 
+main() 
+{ 
+int ch; 
+do 
+{ 
+printf("1.insrtfrnt\n2.end insert\n3.del frnt\n4.del end\n5display\n6.exit\n"); 
+scanf("%d",&ch); 
+switch(ch) 
+{ 
+case 1:frontinsert(); 
+break; 
+case 2:endinsert(); 
+break; 
+case 3:frontdel(); 
+break; 
+case 4:enddel(); 
+break; 
+case 5:display(); 
+break; 
+case 6:exit(0); 
+} 
+}while(ch!=6); 
+return 0; 
+} 
+node* readdata() 
+{ 
+node *nn; 
+nn=(node*)malloc(sizeof(node)); 
+printf("enter ssn of employee"); 
+scanf("%s",nn->ssn); 
+printf("enter name"); 
+scanf("%s",nn->name); 
+printf("enter dept"); 
+scanf("%s",nn->dept); 
+printf("enter des"); 
+scanf("%s",nn->des); 
+printf("enter salary"); 
+scanf("%d",&nn->sal); 
+printf("enter ph no"); 
+scanf("%s",nn->ph); 
+nn->left=NULL; 
+nn->right=NULL; 
+return(nn); 
+} 
+void frontinsert() 
+{ 
+node *temp; 
+temp=readdata(); 
+if(first==NULL) 
+first=temp; 
+else 
+{ 
+temp->right=first; 
+first->left=temp; 
+first=temp; 
+} 
+} 
+void endinsert() 
+{ 
+node *temp,*curr; 
+temp=readdata(); 
+if(first==NULL) 
+first=temp; 
+else 
+{ 
+curr=first; 
+while(curr->right!=NULL) 
+curr=curr->right; 
+curr->right=temp; 
+temp->left=curr; 
+} 
+} 
+void frontdel() 
+{ 
+node *temp; 
+if(first==NULL) 
+printf("list is emopty"); 
+else if(first->right==NULL) 
+{ 
+temp=first; 
+first=NULL; 
+free(temp); 
+} 
+else 
+{ 
+temp=first; 
+first=first->right; 
+first->left=NULL; 
+free(temp); 
+} 
+} 
+void enddel() 
+{ 
+node *temp,*prev,*curr; 
+if(first==NULL) 
+{ 
+printf("list is empty"); 
+} 
+else if(first->right==NULL) 
+{ 
+temp=first; 
+first=NULL; 
+free(temp); 
+} 
+else 
+{ 
+prev=curr=first; 
+while(curr->right!=NULL) 
+{ 
+prev=curr; 
+curr=curr->right; 
+} 
+free(curr); 
+prev->right=NULL; 
+} 
+} 
+void display() 
+{ 
+node *temp; 
+int n=0; 
+if(first==NULL) 
+{ 
+printf("list is empty"); 
+} 
+else 
+{ 
+temp=first; 
+while(temp!=NULL) 
+{ 
+printf("ssn is %s",temp->ssn); 
+printf("name is%s",temp->name); 
+printf("dept is %s",temp->dept); 
+printf("des is %s",temp->des); 
+printf("salary is%d",temp->sal); 
+printf("ph no is%s",temp->ph); 
+n++; 
+temp=temp->right; 
+} 
+printf("num of nodes%d",n); 
+} } 
